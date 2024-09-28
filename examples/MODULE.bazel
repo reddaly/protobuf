@@ -1,0 +1,7 @@
+bazel_dep(name = "protobuf", repo_name = "com_google_protobuf", version = "")
+
+local_path_override(
+  module_name = "protobuf",
+  path = "..",
+)
+
