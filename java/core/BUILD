@@ -1,6 +1,6 @@
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@rules_java//java:defs.bzl", "java_library", "java_lite_proto_library", "java_proto_library")
-load("@rules_jvm_external//:defs.bzl", "java_export")
+# load("@rules_jvm_external//:defs.bzl", "java_export")
 load("@rules_proto//proto:defs.bzl", "proto_lang_toolchain", "proto_library")
 load("//:internal.bzl", "conformance_test")
 load("//:protobuf_version.bzl", "PROTOBUF_VERSION")
@@ -112,15 +112,15 @@ java_library(
 )
 
 # Bazel users, don't depend on this target, use //java/lite.
-java_export(
-    name = "lite_mvn",
-    maven_coordinates = "com.google.protobuf:protobuf-javalite:%s" % PROTOBUF_VERSION,
-    pom_template = "//java/lite:pom_template.xml",
-    resources = [
-        "//:lite_well_known_protos",
-    ],
-    runtime_deps = [":lite"],
-)
+# java_export(
+#     name = "lite_mvn",
+#     maven_coordinates = "com.google.protobuf:protobuf-javalite:%s" % PROTOBUF_VERSION,
+#     pom_template = "//java/lite:pom_template.xml",
+#     resources = [
+#         "//:lite_well_known_protos",
+#     ],
+#     runtime_deps = [":lite"],
+# )
 
 java_library(
     name = "lite_runtime_only",
@@ -147,15 +147,15 @@ java_library(
 )
 
 # Bazel users, don't depend on this target, use :core.
-java_export(
-    name = "core_mvn",
-    maven_coordinates = "com.google.protobuf:protobuf-java:%s" % PROTOBUF_VERSION,
-    pom_template = "pom_template.xml",
-    resources = [
-        "//:well_known_protos",
-    ],
-    runtime_deps = [":core"],
-)
+# java_export(
+#     name = "core_mvn",
+#     maven_coordinates = "com.google.protobuf:protobuf-java:%s" % PROTOBUF_VERSION,
+#     pom_template = "pom_template.xml",
+#     resources = [
+#         "//:well_known_protos",
+#     ],
+#     runtime_deps = [":core"],
+# )
 
 filegroup(
     name = "release",
