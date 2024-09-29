@@ -76,7 +76,7 @@ def _RelativeOutputPath(path, include, dest = ""):
 def _proto_gen_impl(ctx):
     """General implementation for generating protos"""
     srcs = ctx.files.srcs
-    deps = depset(direct=ctx.files.srcs)
+    deps = depset(direct = ctx.files.srcs)
     source_dir = _SourceDir(ctx)
     gen_dir = _GenDir(ctx).rstrip("/")
     if source_dir:
@@ -87,19 +87,19 @@ def _proto_gen_impl(ctx):
             import_flags += ["-I" + source_dir]
         if has_generated:
             import_flags += ["-I" + gen_dir]
-        import_flags = depset(direct=import_flags)
+        import_flags = depset(direct = import_flags)
     else:
-        import_flags = depset(direct=["-I."])
+        import_flags = depset(direct = ["-I."])
 
     for dep in ctx.attr.deps:
         if type(dep.proto.import_flags) == "list":
-            import_flags = depset(transitive=[import_flags], direct=dep.proto.import_flags)
+            import_flags = depset(transitive = [import_flags], direct = dep.proto.import_flags)
         else:
-            import_flags = depset(transitive=[import_flags, dep.proto.import_flags])
+            import_flags = depset(transitive = [import_flags, dep.proto.import_flags])
         if type(dep.proto.deps) == "list":
-            deps = depset(transitive=[deps], direct=dep.proto.deps)
+            deps = depset(transitive = [deps], direct = dep.proto.deps)
         else:
-            deps = depset(transitive=[deps, dep.proto.deps])
+            deps = depset(transitive = [deps, dep.proto.deps])
 
     if not ctx.attr.gen_cc and not ctx.attr.gen_py and not ctx.executable.plugin:
         return struct(
@@ -266,9 +266,9 @@ def cc_proto_library(
         deps = [],
         cc_libs = [],
         include = None,
-        protoc = "@com_google_protobuf//:protoc",
+        protoc = Label("//:protoc"),
         use_grpc_plugin = False,
-        default_runtime = "@com_google_protobuf//:protobuf",
+        default_runtime = Label("//:protobuf"),
         **kargs):
     """Bazel rule to create a C++ protobuf library from proto source files
 
@@ -386,7 +386,7 @@ internal_gen_well_known_protos_java = rule(
         "_protoc": attr.label(
             executable = True,
             cfg = "exec",
-            default = "@com_google_protobuf//:protoc",
+            default = Label("//:protoc"),
         ),
     },
 )
@@ -453,8 +453,6 @@ internal_gen_kt_protos = rule(
     },
 )
 
-
-
 def internal_copied_filegroup(name, srcs, strip_prefix, dest, **kwargs):
     """Macro to copy files to a different directory and then create a filegroup.
 
@@ -493,8 +491,8 @@ def py_proto_library(
         py_libs = [],
         py_extra_srcs = [],
         include = None,
-        default_runtime = "@com_google_protobuf//:protobuf_python",
-        protoc = "@com_google_protobuf//:protoc",
+        default_runtime = Label("//:protobuf_python"),
+        protoc = Label("//:protoc"),
         use_grpc_plugin = False,
         **kargs):
     """Bazel rule to create a Python protobuf library from proto source files
